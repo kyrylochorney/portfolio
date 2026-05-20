@@ -105,7 +105,7 @@
             color: #7482ed;
         }
 
-        /* КНОПКА ПЕРЕМИКАННЯ МОВИ (ПОВНІСТЮ ОЧИЩЕНА ВІД СИСТЕМНИХ ОБВОДОК) */
+        /* КНОПКА ПЕРЕМИКАННЯ МОВИ */
         .lang-switch {
             background: linear-gradient(135deg, rgba(26, 20, 44, 0.75), rgba(14, 10, 22, 0.75));
             border: 1px solid rgba(116, 130, 237, 0.3);
@@ -122,10 +122,7 @@
             transition: all 0.3s ease;
             user-select: none;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            
-            /* Намертво вбиваємо будь-які рамки фокусу та аутлайни при тапі */
             outline: none !important;
-            -webkit-blur: none;
         }
 
         .lang-switch:hover {
@@ -134,7 +131,6 @@
             box-shadow: 0 0 15px rgba(116, 130, 237, 0.2);
         }
 
-        /* Гарантуємо чистий колір без системних нашарувань */
         .lang-switch span {
             outline: none !important;
         }
@@ -411,12 +407,12 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* TOAST NOTIFICATION */
+        /* МОДЕРНІЗОВАНЕ СПОВІЩЕННЯ (БЕЗШОВНЕ ХОВАННЯ ЧЕРЕЗ OPACITY) */
         .toast-notification {
             position: fixed;
-            top: -60px;
+            top: 30px; /* Позиція завжди фіксована вгорі сайту */
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translateY(-20px); /* Невеликий зсув для ефекту вильоту */
             background: linear-gradient(135deg, #161224, #0e0a16);
             border: 1px solid #99bf37;
             color: #e6edf3;
@@ -426,11 +422,18 @@
             font-weight: 600;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(153, 191, 55, 0.2);
             z-index: 9999;
-            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            
+            /* Початковий повністю невидимий стан */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), visibility 0.3s;
         }
 
+        /* Стан проявлення при копіюванні */
         .toast-notification.show {
-            top: 30px;
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
 
         /* КНОПКА «ВГОРУ» */
@@ -809,11 +812,8 @@
                         e.stopPropagation();
                         
                         const isActive = item.classList.contains('touch-active');
-                        
-                        // Прибираємо активний клас у всіх іконок
                         techItems.forEach(i => i.classList.remove('touch-active'));
                         
-                        // Якщо вона не була активною, активуємо її
                         if(!isActive) {
                             item.classList.add('touch-active');
                         }
@@ -821,7 +821,6 @@
                 });
             });
 
-            // Закриття підказок софту при кліці в будь-яке інше місце екрана
             document.addEventListener('click', function(e) {
                 if (!e.target.classList.contains('tech-item')) {
                     techItems.forEach(i => i.classList.remove('touch-active'));
