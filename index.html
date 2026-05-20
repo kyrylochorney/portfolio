@@ -1,15 +1,188 @@
-!DOCTYPE html
-html lang=uk
-head
-    meta charset=UTF-8
-    titleМоє Портфоліоtitle
-    style
-        body { font-family sans-serif; background #0f172a; color #fff; text-align center; padding 50px; }
-        h1 { color #38bdf8; }
-    style
-head
-body
-    h1Привіт! Я створюю крутий цифровий контентh1
-    pЦей сайт скоро перетвориться на моє професійне портфоліо.p
-body
-html
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфоліо | Цифровий контент & Дизайн</title>
+    <style>
+        /* Базові налаштування стилю */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0d1117; /* Глибокий темний колір */
+            color: #e6edf3;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Шапка сайту (Головна інформація) */
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid #21262d;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #7482ed; /* Приємний синьо-фіолетовий акцент */
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #8b949e;
+            margin-bottom: 20px;
+        }
+
+        /* Навігація / Соціальні лінки */
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .links a {
+            color: #99bf37; /* Контрастний зелений колір для лінків */
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .links a:hover {
+            color: #7482ed;
+        }
+
+        /* Секції сайту */
+        section {
+            padding: 40px 0;
+            border-bottom: 1px solid #21262d;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #e6edf3;
+            margin-bottom: 20px;
+            display: inline-block;
+            border-left: 4px solid #7482ed;
+            padding-left: 10px;
+        }
+
+        /* Сітка для проєктів (Роботи) */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .project-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: #7482ed;
+        }
+
+        .project-card h3 {
+            color: #7482ed;
+            margin-bottom: 10px;
+        }
+
+        .project-card p {
+            color: #8b949e;
+            font-size: 0.95rem;
+        }
+
+        /* Футер */
+        footer {
+            text-align: center;
+            padding: 40px 0 0 0;
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Шапка -->
+        <header>
+            <h1>Твоє Ім'я / Студія</h1>
+            <p class="subtitle">Motion Designer & Video Creator</p>
+            <div class="links">
+                <a href="#about">Про мене</a>
+                <a href="#projects">Мої роботи</a>
+                <a href="mailto:your-email@example.com">Email</a>
+                <a href="https://t.me/your_username" target="_blank">Telegram</a>
+            </div>
+        </header>
+
+        <!-- Секція "Про мене" -->
+        <section id="about">
+            <h2>Про мене</h2>
+            <p>Привіт! Я займаюся створенням цифрового контенту, монтажем відео та моушн-дизайном. Допомагаю брендам та авторам розповідати їхні історії через динамічні візуальні образи. Працюю на результат, ціную мінімалізм, чіткість та високу якість фінального продукту.</p>
+        </section>
+
+        <!-- Секція "Проєкти" -->
+        <section id="projects">
+            <h2>Мої роботи</h2>
+            <div class="projects-grid">
+                
+                <!-- Картка проєкту 1 -->
+                <div class="project-card">
+                    <h3>Назва проєкту №1</h3>
+                    <p>Короткий опис того, що було зроблено (наприклад, монтаж шоурілу, розробка графіки чи створення контент-стратегії).</p>
+                </div>
+
+                <!-- Картка проєкту 2 -->
+                <div class="project-card">
+                    <h3>Назва проєкту №2</h3>
+                    <p>Опис другого проєкту. Можна додати інформацію про використані інструменти або завдання, які вдалося вирішити.</p>
+                </div>
+
+                <!-- Картка проєкту 3 -->
+                <div class="project-card">
+                    <h3>Назва проєкту №3</h3>
+                    <p>Ще одна твоя крута робота, якою варто пишатися. Потім ми зможемо замінити цей текст на реальні кейси.</p>
+                </div>
+
+                <!-- Картка проєкту 4 -->
+                <div class="project-card">
+                    <h3>Назва проєкту №4</h3>
+                    <p>Тут може бути посилання на твій YouTube, Behance, клієнтський кейс або особистий експеримент.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Футер -->
+        <footer>
+            <p>&copy; 2026 Всі права захищені. Створено з любов'ю.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
