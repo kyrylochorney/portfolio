@@ -12,6 +12,7 @@
             padding: 0;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             scroll-behavior: smooth; /* Забезпечує плавний скрол по всій сторінці */
+            -webkit-tap-highlight-color: transparent; /* Прибирає дефолтне сіро-синє виділення при тапах на смартфонах */
         }
 
         body {
@@ -120,6 +121,7 @@
             transition: all 0.3s ease;
             user-select: none;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            outline: none; /* Прибирає системні рамки виділення у мобільних браузерах */
         }
 
         .lang-switch:hover {
@@ -338,7 +340,7 @@
             cursor: pointer;
         }
 
-        /* Tooltip */
+        /* Настільні CSS-підказки */
         .tech-item::after {
             content: attr(data-tooltip);
             position: absolute;
@@ -359,7 +361,6 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Tooltip arrow */
         .tech-item::before {
             content: '';
             position: absolute;
@@ -383,6 +384,18 @@
 
         .tech-item:hover::after,
         .tech-item:hover::before {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* СПЕЦІАЛЬНИЙ МОБІЛЬНИЙ КЛАС ДЛЯ АКТИВАЦІЇ ТУЛТІПІВ ПРИ ТАПІ */
+        .tech-item.touch-active {
+            color: #7482ed;
+            border-color: rgba(116, 130, 237, 0.5);
+            transform: scale(1.05) translateY(-3px);
+        }
+        .tech-item.touch-active::after,
+        .tech-item.touch-active::before {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
@@ -457,15 +470,11 @@
             transform: scale(1) translateY(0);
         }
 
-        /* ------------------------------------------------------------- */
-        /* ДИНАМІЧНІ МЕДІА-ЗАПИТИ ДЛЯ ПОВНОЇ МОБІЛЬНОЇ АДАПТАЦІЇ (BREAKPOINTS) */
-        /* ------------------------------------------------------------- */
-        
+        /* MOBILE RESPONSIVE MEDIA QUERIES */
         @media (max-width: 768px) {
-            /* Перебудова шапки навігації */
             nav {
                 justify-content: center;
-                padding: 20px 0;
+                padding: 20px 0 10px 0;
             }
             .nav-container {
                 flex-direction: column-reverse;
@@ -479,7 +488,7 @@
             
             /* Адаптація головного екрана */
             .hero {
-                padding: 30px 0 50px 0;
+                padding: 25px 0 45px 0;
             }
             .avatar-container {
                 width: 130px;
@@ -497,7 +506,7 @@
                 font-size: 0.95rem;
             }
 
-            /* Перебудова карток портфоліо у вертикальний стек */
+            /* Вертикальний стек для карток проєктів */
             .company-card {
                 flex-direction: column;
                 padding: 20px;
@@ -521,7 +530,6 @@
                 padding: 10px;
             }
             
-            /* Кнопка повернення вгору для телефонів */
             .back-to-top {
                 bottom: 25px;
                 right: 25px;
@@ -547,6 +555,13 @@
                 width: 55px;
                 height: 55px;
                 font-size: 0.85rem;
+            }
+            /* Приховуємо CSS тултіпи на зовсім маленьких екранах, якщо відпрацьовує дотик */
+            .tech-item:hover::after, .tech-item:hover::before {
+                opacity: 0;
+            }
+            .tech-item.touch-active::after, .tech-item.touch-active::before {
+                opacity: 1;
             }
         }
 
@@ -580,7 +595,7 @@
                 
                 <div class="lang-switch" onclick="toggleLanguage()">
                     <span id="lang-ua" class="active">UA</span>
-                    <span style="color:#444;">/</span>
+                    <span style="color:#444; pointer-events: none;">/</span>
                     <span id="lang-en">EN</span>
                 </div>
             </div>
@@ -772,6 +787,37 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             setLanguage(currentLang);
+
+            // МОБІЛЬНИЙ СКРИПТ ДЛЯ ТАПУ ПО ІКОНКАХ СОФТУ
+            const techItems = document.querySelectorAll('.tech-item');
+            techItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    // Якщо клікнули на смартфоні
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        
+                        // Прибираємо активний клас у інших іконок, якщо вони відкриті
+                        techItems.forEach(i => { if(i !== item) i.classList.remove('touch-active'); });
+                        
+                        // Вмикаємо/вимикаємо підказку на поточній іконці
+                        item.classList.toggle('touch-active');
+                        
+                        // Автоматично ховаємо підказку через 2 секунди після тапу
+                        if(item.classList.contains('touch-active')) {
+                            setTimeout(() => {
+                                item.classList.remove('touch-active');
+                            }, 2000);
+                        }
+                    }
+                });
+            });
+
+            // Закриття підказок софту при кліці в будь-яке інше місце екрана
+            document.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('tech-item') && window.innerWidth <= 768) {
+                    techItems.forEach(i => i.classList.remove('touch-active'));
+                }
+            }, true);
         });
 
         function copyEmail() {
