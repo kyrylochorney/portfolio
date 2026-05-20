@@ -3,186 +3,824 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Портфоліо | Цифровий контент & Дизайн</title>
+    <title>Кирило Чорней | Портфоліо</title>
     <style>
-        /* Базові налаштування стилю */
+        /* Global premium theme styles */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            scroll-behavior: smooth; /* Забезпечує плавний скрол по всій сторінці */
         }
 
         body {
-            background-color: #0d1117; /* Глибокий темний колір */
+            background-color: #06040a; /* Ultra deep dark */
             color: #e6edf3;
             line-height: 1.6;
-            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* Шапка сайту (Головна інформація) */
-        header {
-            text-align: center;
-            padding: 40px 0;
-            border-bottom: 1px solid #21262d;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: #7482ed; /* Приємний синьо-фіолетовий акцент */
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: #8b949e;
-            margin-bottom: 20px;
-        }
-
-        /* Навігація / Соціальні лінки */
-        .links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 15px;
-        }
-
-        .links a {
-            color: #99bf37; /* Контрастний зелений колір для лінків */
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .links a:hover {
-            color: #7482ed;
-        }
-
-        /* Секції сайту */
-        section {
-            padding: 40px 0;
-            border-bottom: 1px solid #21262d;
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            color: #e6edf3;
-            margin-bottom: 20px;
-            display: inline-block;
-            border-left: 4px solid #7482ed;
-            padding-left: 10px;
-        }
-
-        /* Сітка для проєктів (Роботи) */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 600px) {
-            .projects-grid {
-                grid-template-columns: 1fr;
+        /* МАГІЧНА МАСШТАБНА АНІМАЦІЯ ЦІЛІСНОГО РІДКОГО ГРАДІЄНТА */
+        @keyframes liquidBackground {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+            25% {
+                transform: translate(5vw, 5vh) rotate(90deg) scale(1.1);
+            }
+            50% {
+                transform: translate(-3vw, 8vh) rotate(180deg) scale(1);
+            }
+            75% {
+                transform: translate(-7vw, -4vh) rotate(270deg) scale(1.15);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg) scale(1);
             }
         }
 
-        .project-card {
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 20px;
-            transition: transform 0.2s, border-color 0.2s;
+        /* МОНОЛІТНА СВІТЛОВА ПІДКИДКА НА ВСЮ СТОРІНКУ */
+        body::before {
+            content: '';
+            position: fixed; 
+            top: -50vh;
+            left: -50vw;
+            width: 200vw;
+            height: 200vh;
+            z-index: -1;
+            background-image: 
+                radial-gradient(circle at 40% 40%, rgba(116, 130, 237, 0.13) 0%, rgba(0,0,0,0) 50%),
+                radial-gradient(circle at 70% 60%, rgba(153, 191, 55, 0.07) 0%, rgba(0,0,0,0) 55%),
+                radial-gradient(circle at 30% 80%, rgba(116, 130, 237, 0.08) 0%, rgba(0,0,0,0) 45%),
+                radial-gradient(circle at 80% 20%, rgba(153, 191, 55, 0.05) 0%, rgba(0,0,0,0) 40%);
+            filter: blur(80px); 
+            animation: liquidBackground 22s infinite linear; 
+            will-change: transform;
         }
 
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: #7482ed;
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 25px;
+            position: relative;
+            z-index: 1;
         }
 
-        .project-card h3 {
+        /* NAVIGATION BAR */
+        nav {
+            display: flex;
+            justify-content: flex-end; 
+            align-items: center;
+            padding: 30px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
             color: #7482ed;
-            margin-bottom: 10px;
         }
 
-        .project-card p {
+        /* КНОПКА ПЕРЕМИКАННЯ МОВИ */
+        .lang-switch {
+            background: linear-gradient(135deg, rgba(26, 20, 44, 0.75), rgba(14, 10, 22, 0.75));
+            border: 1px solid rgba(116, 130, 237, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #8b949e;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            gap: 5px;
+            transition: all 0.3s ease;
+            user-select: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .lang-switch:hover {
+            border-color: rgba(116, 130, 237, 0.6);
+            color: #7482ed;
+            box-shadow: 0 0 15px rgba(116, 130, 237, 0.2);
+        }
+
+        .lang-switch span.active {
+            color: #99bf37;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            text-align: center;
+            padding: 60px 0 80px 0;
+            position: relative;
+        }
+
+        .avatar-container {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 25px auto;
+            border-radius: 50%;
+            background: #110d1a;
+            border: 2px solid rgba(116, 130, 237, 0.4);
+            box-shadow: 0 0 40px rgba(116, 130, 237, 0.3);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%; 
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #e6edf3 60%, #8b949e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero h2 {
+            font-size: 1.2rem;
+            color: #7482ed;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .hero-desc {
+            max-width: 620px;
+            margin: 0 auto;
+            color: #8b949e;
+            font-size: 1.1rem;
+        }
+
+        /* PORTFOLIO SECTION */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #e6edf3;
+            letter-spacing: -0.5px;
+        }
+
+        .works-list {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            margin-bottom: 60px;
+        }
+
+        .company-card {
+            display: flex;
+            background: rgba(17, 13, 26, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 30px;
+            gap: 30px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+
+        .company-card:hover {
+            border-color: rgba(116, 130, 237, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .company-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .company-tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #99bf37;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .company-info h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #e6edf3;
+        }
+
+        .company-info p {
             color: #8b949e;
             font-size: 0.95rem;
+            margin-bottom: 20px;
         }
 
-        /* Футер */
-        footer {
+        .btn-more {
+            align-self: flex-start;
+            padding: 8px 20px;
+            background: rgba(116, 130, 237, 0.08);
+            border: 1px solid rgba(116, 130, 237, 0.2);
+            color: #7482ed;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-more:hover {
+            background: #7482ed;
+            color: #06040a;
+            box-shadow: 0 0 15px rgba(116, 130, 237, 0.4);
+        }
+
+        .video-wrapper {
+            width: 320px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-holder {
+            background: #161224;
+            border: 1px dashed rgba(116, 130, 237, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .landscape-layout {
+            width: 100%;
+            height: 180px;
+        }
+
+        .portrait-layout {
+            width: 105px;
+            height: 180px;
+        }
+
+        /* TECH STACK SECTION */
+        .tech-stack {
+            padding: 40px 0 80px 0;
             text-align: center;
-            padding: 40px 0 0 0;
+        }
+
+        .tech-title {
             color: #8b949e;
             font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 35px;
+        }
+
+        .tech-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .tech-item {
+            position: relative;
+            width: 65px;
+            height: 65px;
+            background: #110d1a;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #8b949e;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        /* Tooltip */
+        .tech-item::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: linear-gradient(135deg, #161224, #0e0a16);
+            border: 1px solid rgba(116, 130, 237, 0.3);
+            color: #e6edf3;
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 6px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), 0 0 10px rgba(116, 130, 237, 0.15);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Tooltip arrow */
+        .tech-item::before {
+            content: '';
+            position: absolute;
+            bottom: 73px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            border-width: 7px 7px 0;
+            border-style: solid;
+            border-color: rgba(116, 130, 237, 0.3) transparent transparent;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .tech-item:hover {
+            color: #7482ed;
+            border-color: rgba(116, 130, 237, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(116, 130, 237, 0.25);
+        }
+
+        .tech-item:hover::after,
+        .tech-item:hover::before {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* TOAST NOTIFICATION */
+        .toast-notification {
+            position: fixed;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #161224, #0e0a16);
+            border: 1px solid #99bf37;
+            color: #e6edf3;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(153, 191, 55, 0.2);
+            z-index: 9999;
+            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast-notification.show {
+            top: 30px;
+        }
+
+        /* КНОПКА «ВГОРУ» */
+        .back-to-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 54px;
+            height: 54px;
+            background: linear-gradient(135deg, rgba(26, 20, 44, 0.85), rgba(14, 10, 22, 0.9));
+            border: 1.5px solid rgba(116, 130, 237, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 50%;
+            color: #7482ed;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0;
+            transform: scale(0.4) translateY(40px);
+            visibility: hidden; 
+            transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s, box-shadow 0.3s, color 0.3s;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+        }
+
+        .back-to-top span {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-block;
+        }
+
+        .back-to-top:hover {
+            color: #99bf37;
+            border-color: rgba(153, 191, 55, 0.7);
+            transform: scale(1.1) translateY(-4px);
+            box-shadow: 0 0 30px rgba(116, 130, 237, 0.45), 0 10px 30px rgba(0,0,0,0.7);
+        }
+
+        .back-to-top:hover span {
+            transform: translateY(-2px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+        }
+
+        /* ------------------------------------------------------------- */
+        /* ДИНАМІЧНІ МЕДІА-ЗАПИТИ ДЛЯ ПОВНОЇ МОБІЛЬНОЇ АДАПТАЦІЇ (BREAKPOINTS) */
+        /* ------------------------------------------------------------- */
+        
+        @media (max-width: 768px) {
+            /* Перебудова шапки навігації */
+            nav {
+                justify-content: center;
+                padding: 20px 0;
+            }
+            .nav-container {
+                flex-direction: column-reverse;
+                gap: 20px;
+                width: 100%;
+            }
+            .nav-links {
+                justify-content: center;
+                gap: 15px 20px;
+            }
+            
+            /* Адаптація головного екрана */
+            .hero {
+                padding: 30px 0 50px 0;
+            }
+            .avatar-container {
+                width: 130px;
+                height: 130px;
+                margin-bottom: 20px;
+            }
+            .hero h1 {
+                font-size: 2.1rem;
+            }
+            .hero h2 {
+                font-size: 1rem;
+                letter-spacing: 1px;
+            }
+            .hero-desc {
+                font-size: 0.95rem;
+            }
+
+            /* Перебудова карток портфоліо у вертикальний стек */
+            .company-card {
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+            }
+            .video-wrapper {
+                width: 100%;
+                max-width: 100%;
+            }
+            .landscape-layout {
+                height: 190px;
+            }
+            .portrait-layout {
+                flex: 1;
+                height: 160px;
+                max-width: calc(33.333% - 10px);
+            }
+            .btn-more {
+                align-self: stretch;
+                text-align: center;
+                padding: 10px;
+            }
+            
+            /* Кнопка повернення вгору для телефонів */
+            .back-to-top {
+                bottom: 25px;
+                right: 25px;
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .nav-links {
+                gap: 12px 15px;
+            }
+            .nav-links a {
+                font-size: 0.88rem;
+            }
+            .tech-grid {
+                gap: 15px;
+            }
+            .tech-item {
+                width: 55px;
+                height: 55px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: #666;
+            font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
 
+    <div id="backToTop" class="back-to-top" onclick="scrollToTop()"><span>▲</span></div>
+
+    <div id="toast" class="toast-notification">Пошту скопійовано! 👍</div>
+
     <div class="container">
         
-        <!-- Шапка -->
-        <header>
-            <h1>Твоє Ім'я / Студія</h1>
-            <p class="subtitle">Motion Designer & Video Creator</p>
-            <div class="links">
-                <a href="#about">Про мене</a>
-                <a href="#projects">Мої роботи</a>
-                <a href="mailto:your-email@example.com">Email</a>
-                <a href="https://t.me/your_username" target="_blank">Telegram</a>
-            </div>
-        </header>
-
-        <!-- Секція "Про мене" -->
-        <section id="about">
-            <h2>Про мене</h2>
-            <p>Привіт! Я займаюся створенням цифрового контенту, монтажем відео та моушн-дизайном. Допомагаю брендам та авторам розповідати їхні історії через динамічні візуальні образи. Працюю на результат, ціную мінімалізм, чіткість та високу якість фінального продукту.</p>
-        </section>
-
-        <!-- Секція "Проєкти" -->
-        <section id="projects">
-            <h2>Мої роботи</h2>
-            <div class="projects-grid">
+        <nav>
+            <div class="nav-container">
+                <div class="nav-links">
+                    <a onclick="scrollToWorks()" id="nav-portfolio">Портфоліо</a>
+                    <a onclick="copyEmail()" id="nav-email">Пошта</a>
+                    <a href="https://t.me/pure_lama86" target="_blank">Telegram</a>
+                    <a href="viber://chat?number=+380962128905" target="_blank">Viber</a>
+                    <a href="https://instagram.com/chorney_kirill" target="_blank">Instagram</a>
+                </div>
                 
-                <!-- Картка проєкту 1 -->
-                <div class="project-card">
-                    <h3>Назва проєкту №1</h3>
-                    <p>Короткий опис того, що було зроблено (наприклад, монтаж шоурілу, розробка графіки чи створення контент-стратегії).</p>
+                <div class="lang-switch" onclick="toggleLanguage()">
+                    <span id="lang-ua" class="active">UA</span>
+                    <span style="color:#444;">/</span>
+                    <span id="lang-en">EN</span>
+                </div>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="avatar-container">
+                <img src="avatar.png" alt="Кирило Чорней">
+            </div>
+            <h1 id="hero-name">Кирило Чорней</h1>
+            <h2 id="hero-title">відеомонтажер, моушн-дизайнер</h2>
+            <p id="hero-desc" class="hero-desc">Беру ідеї та перетворюю їх на динамічний цифровий контент. Допомагаю брендам та авторам виділятися через соковитий моушн-дизайн, професійний монтаж та продумані візуальні рішення.</p>
+        </section>
+
+        <section id="works">
+            <h2 id="section-works-title" class="section-title">Компанії & Проєкти</h2>
+            <div class="works-list">
+
+                <div class="company-card">
+                    <div class="company-info">
+                        <span class="company-tag" id="card1-tag">/ Commercial Video</span>
+                        <h3 id="card1-title">Промо-ролик для IT-продукту</h3>
+                        <p id="card1-desc">Розробка динамічного рекламного відео: від написання сценарію до фінального звукового дизайну та інтеграції плавної графіки.</p>
+                        <a href="#" class="btn-more" id="card1-btn">Дивитись кейс</a>
+                    </div>
+                    <div class="video-wrapper">
+                        <div class="video-holder landscape-layout">
+                            <span id="placeholder-16-9-a">Відеозаглушка 16:9</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Картка проєкту 2 -->
-                <div class="project-card">
-                    <h3>Назва проєкту №2</h3>
-                    <p>Опис другого проєкту. Можна додати інформацію про використані інструменти або завдання, які вдалося вирішити.</p>
+                <div class="company-card">
+                    <div class="company-info">
+                        <span class="company-tag" id="card2-tag">/ Social Media Content</span>
+                        <h3 id="card2-title">Серія Reels: Фінанси та Трейдинг</h3>
+                        <p id="card2-desc">Створення циклу коротких вертикальних відео «під ключ». Динамічний темпомонтаж, акцентні субтитри та саунд-дизайн, що утримують увагу глядача з першої секунди.</p>
+                        <a href="#" class="btn-more" id="card2-btn">Дивитись серію</a>
+                    </div>
+                    <div class="video-wrapper">
+                        <div class="video-holder portrait-layout"><span class="placeholder-reels">Reels 1</span></div>
+                        <div class="video-holder portrait-layout"><span class="placeholder-reels">Reels 2</span></div>
+                        <div class="video-holder portrait-layout"><span class="placeholder-reels">Reels 3</span></div>
+                    </div>
                 </div>
 
-                <!-- Картка проєкту 3 -->
-                <div class="project-card">
-                    <h3>Назва проєкту №3</h3>
-                    <p>Ще одна твоя крута робота, якою варто пишатися. Потім ми зможемо замінити цей текст на реальні кейси.</p>
-                </div>
-
-                <!-- Картка проєкту 4 -->
-                <div class="project-card">
-                    <h3>Назва проєкту №4</h3>
-                    <p>Тут може бути посилання на твій YouTube, Behance, клієнтський кейс або особистий експеримент.</p>
+                <div class="company-card">
+                    <div class="company-info">
+                        <span class="company-tag">/ Motion Design</span>
+                        <h3 id="card3-title">Анімація інтерфейсів & Шейпова графіка</h3>
+                        <p id="card3-desc">Створення складних 2D/3D сцен, інфографіки та кастомних переходів в Adobe After Effects. Поєднання мінімалізму та соковитої динаміки.</p>
+                        <a href="#" class="btn-more" id="card3-btn">Переглянути графіку</a>
+                    </div>
+                    <div class="video-wrapper">
+                        <div class="video-holder landscape-layout">
+                            <span id="placeholder-16-9-b">Шоуріл заглушка</span>
+                        </div>
+                    </div>
                 </div>
 
             </div>
         </section>
 
-        <!-- Футер -->
+        <section class="tech-stack">
+            <h3 id="section-tech-title" class="tech-title">Інструменти & Софт</h3>
+            <div class="tech-grid">
+                <div class="tech-item" id="tool-pr" data-tooltip="Adobe Premiere Pro">Pr</div>
+                <div class="tech-item" id="tool-ae" data-tooltip="Adobe After Effects">Ae</div>
+                <div class="tech-item" id="tool-dr" data-tooltip="DaVinci Resolve">Dr</div>
+                <div class="tech-item" id="tool-me" data-tooltip="Adobe Media Encoder">Me</div>
+                <div class="tech-item" data-tooltip="CapCut">Cc</div>
+                <div class="tech-item" id="tool-ps" data-tooltip="Adobe Photoshop">Ps</div>
+                <div class="tech-item" id="tool-ai" data-tooltip="Adobe Illustrator">Ai</div>
+            </div>
+        </section>
+
         <footer>
-            <p>&copy; 2026 Всі права захищені. Створено з любов'ю.</p>
+            <p id="footer-text">&copy; 2026 Кирило Чорней. Всі права захищені.</p>
         </footer>
 
     </div>
+
+    <script>
+        const translations = {
+            uk: {
+                title: "Кирило Чорней | Портфоліо",
+                toast: "Пошту скопійовано! 👍",
+                navPortfolio: "Портфоліо",
+                navEmail: "Пошта",
+                heroName: "Кирило Чорней",
+                heroTitle: "відеомонтажер, моушн-дизайнер",
+                heroDesc: "Беру ідеї та перетворюю їх на динамічний цифровий контент. Допомагаю брендам та авторам виділятися через соковитий моушн-дизайн, професійний монтаж та продумані візуальні рішення.",
+                secWorksTitle: "Компанії & Проєкти",
+                card1Title: "Промо-ролик для IT-продукту",
+                card1Desc: "Розробка динамічного рекламного відео: від написання сценарію до фінального звукового дизайну та інтеграції плавної графіки.",
+                card1Btn: "Дивитись кейс",
+                card2Title: "Серія Reels: Фінанси та Трейдинг",
+                card2Desc: "Створення циклу коротких вертикальних відео «під ключ». Динамічний темпомонтаж, акцентні субтитри та саунд-дизайн, що утримують увагу глядача з першої секунди.",
+                card2Btn: "Дивитись серію",
+                card3Title: "Анімація інтерфейсів & Шейпова графіка",
+                card3Desc: "Створення складних 2D/3D сцен, інфографіки та кастомних переходів в Adobe After Effects. Поєднання мінімалізму та соковитої динаміки.",
+                card3Btn: "Переглянути графіку",
+                placeholder169a: "Відеозаглушка 16:9",
+                placeholder169b: "Шоуріл заглушка",
+                placeholderReels: "Reels",
+                secTechTitle: "Інструменти & Софт",
+                footer: "© 2026 Кирило Чорней. Всі права захищені."
+            },
+            en: {
+                title: "Kyrylo Chorney | Portfolio",
+                toast: "Email copied! 👍",
+                navPortfolio: "Portfolio",
+                navEmail: "Email",
+                heroName: "Kyrylo Chorney",
+                heroTitle: "Video Editor, Motion Designer",
+                heroDesc: "I take ideas and turn them into dynamic digital content. Helping brands and creators stand out through juicy motion design, professional editing, and smart visual solutions.",
+                secWorksTitle: "Companies & Projects",
+                card1Title: "Promo Video for IT Product",
+                card1Desc: "Development of dynamic promotional video: from scriptwriting to final sound design and integration of smooth vector graphics.",
+                card1Btn: "View Case",
+                card2Title: "Reels Series: Finance & Trading",
+                card2Desc: "Turnkey production of short vertical videos. Dynamic fast-cut editing, engaging subtitles, and sound design that capture viewer attention from the first second.",
+                card2Btn: "View Series",
+                card3Title: "UI Animation & Shape Graphics",
+                card3Desc: "Creating complex 2D/3D scenes, infographics, and custom transitions in Adobe After Effects. Merging minimalism with rich dynamics.",
+                card3Btn: "View Graphics",
+                placeholder169a: "Video Placeholder 16:9",
+                placeholder169b: "Showreel Placeholder",
+                placeholderReels: "Reels",
+                secTechTitle: "Tools & Software",
+                footer: "© 2026 Kyrylo Chorney. All rights reserved."
+            }
+        };
+
+        let currentLang = localStorage.getItem('portfolio_lang') || 'uk';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('portfolio_lang', lang);
+            
+            document.title = translations[lang].title;
+            document.getElementById('toast').innerHTML = translations[lang].toast;
+            document.getElementById('nav-portfolio').innerHTML = translations[lang].navPortfolio;
+            document.getElementById('nav-email').innerHTML = translations[lang].navEmail;
+            document.getElementById('hero-name').innerHTML = translations[lang].heroName;
+            document.getElementById('hero-title').innerHTML = translations[lang].heroTitle;
+            document.getElementById('hero-desc').innerHTML = translations[lang].heroDesc;
+            document.getElementById('section-works-title').innerHTML = translations[lang].secWorksTitle;
+            
+            document.getElementById('card1-title').innerHTML = translations[lang].card1Title;
+            document.getElementById('card1-desc').innerHTML = translations[lang].card1Desc;
+            document.getElementById('card1-btn').innerHTML = translations[lang].card1Btn;
+            
+            document.getElementById('card2-title').innerHTML = translations[lang].card2Title;
+            document.getElementById('card2-desc').innerHTML = translations[lang].card2Desc;
+            document.getElementById('card2-btn').innerHTML = translations[lang].card2Btn;
+            
+            document.getElementById('card3-title').innerHTML = translations[lang].card3Title;
+            document.getElementById('card3-desc').innerHTML = translations[lang].card3Desc;
+            document.getElementById('card3-btn').innerHTML = translations[lang].card3Btn;
+
+            document.getElementById('placeholder-16-9-a').innerHTML = translations[lang].placeholder169a;
+            document.getElementById('placeholder-16-9-b').innerHTML = translations[lang].placeholder169b;
+            
+            const reelsSpans = document.querySelectorAll('.placeholder-reels');
+            reelsSpans.forEach((span, index) => {
+                span.innerHTML = `${translations[lang].placeholderReels} ${index + 1}`;
+            });
+
+            document.getElementById('section-tech-title').innerHTML = translations[lang].secTechTitle;
+            document.getElementById('footer-text').innerHTML = translations[lang].footer;
+
+            if(lang === 'uk') {
+                document.getElementById('lang-ua').classList.add('active');
+                document.getElementById('lang-en').classList.remove('active');
+            } else {
+                document.getElementById('lang-en').classList.add('active');
+                document.getElementById('lang-ua').classList.remove('active');
+            }
+        }
+
+        function toggleLanguage() {
+            if (currentLang === 'uk') {
+                setLanguage('en');
+            } else {
+                setLanguage('uk');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setLanguage(currentLang);
+        });
+
+        function copyEmail() {
+            const email = 'kirill.chorney@gmail.com';
+            navigator.clipboard.writeText(email).then(() => {
+                showToast();
+            }).catch(err => {
+                const tempInput = document.createElement('input');
+                tempInput.value = email;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                showToast();
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        const backToTopButton = document.getElementById("backToTop");
+
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopButton.classList.add("visible");
+            } else {
+                backToTopButton.classList.remove("visible");
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+        function scrollToWorks() {
+            const worksSection = document.getElementById('works');
+            worksSection.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    </script>
 
 </body>
 </html>
