@@ -4,228 +4,316 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кирило Чорней | Портфоліо</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Russo+One&display=swap" rel="stylesheet">
     <style>
-        /* Global premium theme styles */
+        :root {
+            --retro-bg: #1A1A1A;
+            --retro-dark: #2C2C2C;
+            --retro-text: #F2F2F2;
+            
+            --apple-green: #61BB46;
+            --apple-yellow: #FDB827;
+            --apple-orange: #F5821F;
+            --apple-red: #E03A3E;
+            --apple-purple: #963D97;
+            --apple-blue: #009DDC;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            scroll-behavior: smooth; /* Забезпечує плавний скрол по всій сторінці */
-            -webkit-tap-highlight-color: transparent; /* Прибирає дефолтне сіро-синє виділення при тапах на смартфонах */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #06040a; /* Ultra deep dark */
-            color: #e6edf3;
+            background-color: var(--retro-bg);
+            color: var(--retro-text);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.1rem;
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
             min-height: 100vh;
         }
 
-        /* МАГІЧНА МАСШТАБНА АНІМАЦІЯ ЦІЛІСНОГО РІДКОГО ГРАДІЄНТА */
-        @keyframes liquidBackground {
-            0% {
-                transform: translate(0, 0) rotate(0deg) scale(1);
-            }
-            25% {
-                transform: translate(5vw, 5vh) rotate(90deg) scale(1.1);
-            }
-            50% {
-                transform: translate(-3vw, 8vh) rotate(180deg) scale(1);
-            }
-            75% {
-                transform: translate(-7vw, -4vh) rotate(270deg) scale(1.15);
-            }
-            100% {
-                transform: translate(0, 0) rotate(360deg) scale(1);
-            }
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.08) 50%);
+            background-size: 100% 4px;
+            z-index: 9999;
+            pointer-events: none;
         }
 
-        /* МОНОЛІТНА СВІТЛОВА ПІДКИДКА НА ВСЮ СТОРІНКУ */
-        body::before {
-            content: '';
+        .ambient-bg {
             position: fixed; 
-            top: -50vh;
-            left: -50vw;
-            width: 200vw;
-            height: 200vh;
-            z-index: -1;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
             background-image: 
-                radial-gradient(circle at 40% 40%, rgba(116, 130, 237, 0.13) 0%, rgba(0,0,0,0) 50%),
-                radial-gradient(circle at 70% 60%, rgba(153, 191, 55, 0.07) 0%, rgba(0,0,0,0) 55%),
-                radial-gradient(circle at 30% 80%, rgba(116, 130, 237, 0.08) 0%, rgba(0,0,0,0) 45%),
-                radial-gradient(circle at 80% 20%, rgba(153, 191, 55, 0.05) 0%, rgba(0,0,0,0) 40%);
-            filter: blur(80px); 
-            animation: liquidBackground 22s infinite linear; 
-            will-change: transform;
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: moveGrid 30s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(40px); }
+        }
+
+        #particlesCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.8;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 0 25px;
             position: relative;
             z-index: 1;
+            transition: opacity 0.4s ease-in-out, filter 0.4s ease-in-out, transform 0.4s ease-in-out;
         }
 
-        /* NAVIGATION BAR */
+        .container.lang-switching {
+            opacity: 0;
+            filter: blur(5px);
+            transform: translateY(10px);
+        }
+
+        section {
+            padding: 80px 0;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+        }
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-family: 'Russo One', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            color: var(--apple-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            border-bottom: 4px solid var(--apple-red);
+            padding-bottom: 10px;
+        }
+
         nav {
             display: flex;
-            justify-content: flex-end; 
+            justify-content: space-between; 
             align-items: center;
-            padding: 30px 0;
-        }
-
-        .nav-container {
-            display: flex;
-            align-items: center;
-            gap: 30px;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(to right, var(--apple-green), var(--apple-yellow), var(--apple-orange), var(--apple-red), var(--apple-purple), var(--apple-blue)) 1;
         }
 
         .nav-links {
             display: flex;
-            gap: 25px;
-            flex-wrap: wrap;
-            align-items: center;
+            gap: 20px;
         }
 
         .nav-links a {
-            color: #8b949e;
+            color: var(--retro-text);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: color 0.2s ease, text-shadow 0.2s ease;
             cursor: pointer;
-            outline: none !important;
+            text-transform: uppercase;
         }
 
         .nav-links a:hover {
-            color: #7482ed;
+            color: var(--apple-green);
+            text-shadow: 0 0 8px rgba(97, 187, 70, 0.4);
         }
 
-        /* КНОПКА ПЕРЕМИКАННЯ МОВИ */
         .lang-switch {
-            background: linear-gradient(135deg, rgba(26, 20, 44, 0.75), rgba(14, 10, 22, 0.75));
-            border: 1px solid rgba(116, 130, 237, 0.3);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: #8b949e;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            background: var(--retro-dark);
+            border: 2px solid var(--apple-purple);
+            color: var(--retro-text);
+            padding: 6px 12px;
+            font-family: 'Russo One', sans-serif;
+            font-size: 0.8rem;
             cursor: pointer;
             display: flex;
-            gap: 5px;
-            transition: all 0.3s ease;
-            user-select: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            outline: none !important;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
         }
 
         .lang-switch:hover {
-            border-color: rgba(116, 130, 237, 0.6);
-            color: #7482ed;
-            box-shadow: 0 0 15px rgba(116, 130, 237, 0.2);
-        }
-
-        .lang-switch span {
-            outline: none !important;
+            background: var(--apple-purple);
+            color: #fff;
         }
 
         .lang-switch span.active {
-            color: #99bf37;
+            color: var(--apple-yellow);
+        }
+        .lang-switch:hover span.active {
+            color: #fff;
         }
 
-        /* HERO SECTION */
-        .hero {
-            text-align: center;
-            padding: 60px 0 80px 0;
-            position: relative;
+        .hero-section {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            padding: 100px 0;
+            border-bottom: none;
         }
 
-        .avatar-container {
-            width: 160px;
-            height: 160px;
-            margin: 0 auto 25px auto;
-            border-radius: 50%;
-            background: #110d1a;
-            border: 2px solid rgba(116, 130, 237, 0.4);
-            box-shadow: 0 0 40px rgba(116, 130, 237, 0.3);
-            overflow: hidden;
+        .profile-photo {
+            width: 250px;
+            height: 250px;
+            background: var(--retro-dark);
+            border: 4px solid var(--apple-blue);
+            box-shadow: 8px 8px 0px var(--apple-green);
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
+            color: var(--apple-blue);
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
         }
 
-        .avatar-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center 20%; 
-            display: block;
-        }
-
-        .hero h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            line-height: 1.2;
+        .hero-info h1 {
+            font-family: 'Russo One', sans-serif;
+            font-size: 3.5rem;
+            color: #fff;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, #e6edf3 60%, #8b949e);
+            line-height: 1.1;
+            background: -webkit-linear-gradient(0deg, var(--apple-orange), var(--apple-red));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .hero h2 {
-            font-size: 1.2rem;
-            color: #7482ed;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .hero-info h2 {
+            color: var(--apple-green);
+            font-size: 1.5rem;
             margin-bottom: 25px;
-            font-weight: 600;
+            font-weight: 400;
         }
 
-        .hero-desc {
-            max-width: 620px;
-            margin: 0 auto;
-            color: #8b949e;
-            font-size: 1.1rem;
+        .hero-info p {
+            color: #ccc;
+            margin-bottom: 30px;
+            max-width: 600px;
         }
 
-        /* PORTFOLIO SECTION */
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 40px;
-            color: #e6edf3;
-            letter-spacing: -0.5px;
+        .companies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .company-logo {
+            background: var(--retro-dark);
+            border: 2px solid #444;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--retro-text);
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        .company-logo:hover {
+            border-color: var(--hover-color, var(--apple-blue));
+            color: var(--hover-color, var(--apple-blue));
+            transform: translateY(-5px);
+            box-shadow: 4px 4px 0px var(--hover-color, var(--apple-blue));
+        }
+
+        .portfolio-categories {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            background: transparent;
+            border: 2px solid var(--retro-text);
+            color: var(--retro-text);
+            padding: 8px 16px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background: var(--apple-blue);
+            border-color: var(--apple-blue);
+            color: #fff;
+            box-shadow: 4px 4px 0px var(--apple-yellow);
         }
 
         .works-list {
             display: flex;
             flex-direction: column;
-            gap: 35px;
-            margin-bottom: 60px;
+            gap: 40px;
         }
 
         .company-card {
             display: flex;
-            background: rgba(17, 13, 26, 0.45);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
+            background: var(--retro-dark);
+            border: 2px solid #444;
             padding: 30px;
             gap: 30px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: all 0.4s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            opacity: 1;
+            transform: scale(1);
         }
 
         .company-card:hover {
-            border-color: rgba(116, 130, 237, 0.25);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-color: var(--apple-green);
+            box-shadow: 8px 8px 0px rgba(97, 187, 70, 0.4);
+        }
+
+        .company-card.hide-anim {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .company-card.hidden {
+            display: none !important;
         }
 
         .company-info {
@@ -236,454 +324,503 @@
         }
 
         .company-tag {
+            font-family: 'Russo One', sans-serif;
             font-size: 0.8rem;
+            color: var(--apple-orange);
+            margin-bottom: 10px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #99bf37;
-            margin-bottom: 8px;
-            font-weight: 700;
         }
 
         .company-info h3 {
+            font-family: 'Russo One', sans-serif;
             font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #e6edf3;
+            line-height: 1.3;
+            margin-bottom: 15px;
+            color: #fff;
         }
 
         .company-info p {
-            color: #8b949e;
-            font-size: 0.95rem;
-            margin-bottom: 20px;
+            color: #ccc;
+            font-size: 1rem;
+            margin-bottom: 25px;
         }
 
         .btn-more {
             align-self: flex-start;
-            padding: 8px 20px;
-            background: rgba(116, 130, 237, 0.08);
-            border: 1px solid rgba(116, 130, 237, 0.2);
-            color: #7482ed;
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid var(--apple-blue);
+            color: var(--apple-blue);
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border-radius: 6px;
-            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: bold;
             cursor: pointer;
-            outline: none !important;
+            transition: all 0.2s;
         }
 
         .btn-more:hover {
-            background: #7482ed;
-            color: #06040a;
-            box-shadow: 0 0 15px rgba(116, 130, 237, 0.4);
+            background: var(--apple-blue);
+            border-color: var(--apple-blue);
+            color: var(--retro-bg);
+            box-shadow: 4px 4px 0px var(--retro-text);
         }
 
-        .video-wrapper {
-            width: 320px;
+        /* ----- СТИЛІ КАРОУСЕЛІ ----- */
+        .carousel-container {
+            width: 380px; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .carousel-view {
+            width: 100%;
+            overflow-x: auto; 
+            scroll-behavior: smooth; 
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            border-radius: 8px;
+            scroll-snap-type: x mandatory; 
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .carousel-view::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-track {
             display: flex;
             gap: 15px;
-            justify-content: center;
+            width: max-content;
             align-items: center;
+            padding-right: 15px;
+        }
+
+        .carousel-btn {
+            background: var(--retro-dark);
+            border: 2px solid var(--apple-blue);
+            color: var(--apple-blue);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px 8px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+        }
+
+        .carousel-btn:hover {
+            background: var(--apple-blue);
+            color: #fff;
+            box-shadow: 0 0 10px var(--apple-blue);
         }
 
         .video-holder {
-            background: #161224;
-            border: 1px dashed rgba(116, 130, 237, 0.2);
-            border-radius: 10px;
+            background: #000;
+            border: 1px solid #555;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #555;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .landscape-layout {
-            width: 100%;
-            height: 180px;
-        }
-
-        .portrait-layout {
-            width: 105px;
-            height: 180px;
-        }
-
-        /* TECH STACK SECTION */
-        .tech-stack {
-            padding: 40px 0 80px 0;
-            text-align: center;
-        }
-
-        .tech-title {
-            color: #8b949e;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 35px;
-        }
-
-        .tech-grid {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 25px;
-        }
-
-        .tech-item {
-            position: relative;
-            width: 65px;
-            height: 65px;
-            background: #110d1a;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #8b949e;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            outline: none !important;
-        }
-
-        /* Настільні CSS-підказки */
-        .tech-item::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            background: linear-gradient(135deg, #161224, #0e0a16);
-            border: 1px solid rgba(116, 130, 237, 0.3);
-            color: #e6edf3;
-            padding: 6px 14px;
+            color: #777;
             font-size: 0.8rem;
-            font-weight: 600;
-            border-radius: 6px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), 0 0 10px rgba(116, 130, 237, 0.15);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            border-radius: 8px;
+            scroll-snap-align: start; 
         }
 
-        .tech-item::before {
-            content: '';
-            position: absolute;
-            bottom: 73px;
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            border-width: 7px 7px 0;
-            border-style: solid;
-            border-color: rgba(116, 130, 237, 0.3) transparent transparent;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .landscape-layout { width: 280px; height: 160px; flex-shrink: 0; }
+        .portrait-layout { width: 90px; height: 160px; flex-shrink: 0; }
+
+        .video-thumbnail {
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #2C2C2C, #444);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .video-thumbnail:hover {
+            box-shadow: 0 0 15px var(--apple-blue);
+            border: 2px solid var(--apple-blue);
         }
 
-        .tech-item:hover {
-            color: #7482ed;
-            border-color: rgba(116, 130, 237, 0.5);
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(116, 130, 237, 0.25);
+        .play-btn {
+            width: 40px; height: 40px;
+            background: var(--apple-red);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 10px var(--apple-red);
+            transition: transform 0.2s ease;
+        }
+        
+        .video-thumbnail:hover .play-btn {
+            transform: scale(1.1);
         }
 
-        .tech-item:hover::after,
-        .tech-item:hover::before {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        .play-btn::before {
+            content: '▶';
+            color: #fff;
+            font-size: 16px;
+            margin-left: 3px;
         }
 
-        /* МОБІЛЬНИЙ КЛАС ДЛЯ АКТИВАЦІЇ ТУЛТІПІВ ПРИ ТАПІ */
-        .tech-item.touch-active {
-            color: #7482ed;
-            border-color: rgba(116, 130, 237, 0.5);
-            transform: scale(1.05) translateY(-3px);
-        }
-        .tech-item.touch-active::after,
-        .tech-item.touch-active::before {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* МОДЕРНІЗОВАНЕ СПОВІЩЕННЯ (БЕЗШОВНЕ ХОВАННЯ ЧЕРЕЗ OPACITY) */
-        .toast-notification {
+        /* ----- МОДАЛЬНЕ ВІКНО ----- */
+        .video-modal {
             position: fixed;
-            top: 30px; /* Позиція завжди фіксована вгорі сайту */
-            left: 50%;
-            transform: translateX(-50%) translateY(-20px); /* Невеликий зсув для ефекту вильоту */
-            background: linear-gradient(135deg, #161224, #0e0a16);
-            border: 1px solid #99bf37;
-            color: #e6edf3;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(153, 191, 55, 0.2);
-            z-index: 9999;
-            
-            /* Початковий повністю невидимий стан */
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), visibility 0.3s;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
         }
 
-        /* Стан проявлення при копіюванні */
-        .toast-notification.show {
+        .video-modal.active {
             opacity: 1;
             visibility: visible;
-            transform: translateX(-50%) translateY(0);
         }
 
-        /* КНОПКА «ВГОРУ» */
+        .video-modal-content {
+            width: 340px;
+            height: 600px;
+            background: #000;
+            border: 4px solid var(--apple-blue);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 157, 220, 0.6);
+            position: relative;
+            transform: scale(0.7);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .video-modal.active .video-modal-content {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            color: #fff;
+            font-size: 35px;
+            cursor: pointer;
+            z-index: 100001;
+            text-shadow: 0 0 10px #000;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover {
+            color: var(--apple-red);
+        }
+
+        .contact-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-card {
+            flex: 1;
+            min-width: 200px;
+            background: var(--retro-dark);
+            border: 2px solid var(--apple-purple);
+            padding: 30px 20px;
+            text-align: center;
+            color: var(--retro-text);
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-card:hover {
+            background: var(--apple-purple);
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 6px 6px 0px var(--apple-green);
+        }
+
+        .contact-card span {
+            display: block;
+            font-family: 'Russo One', sans-serif;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
         .back-to-top {
             position: fixed;
-            bottom: 40px;
-            right: 40px;
-            width: 54px;
-            height: 54px;
-            background: linear-gradient(135deg, rgba(26, 20, 44, 0.85), rgba(14, 10, 22, 0.9));
-            border: 1.5px solid rgba(116, 130, 237, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 50%;
-            color: #7482ed;
-            font-size: 1.15rem;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--retro-dark);
+            border: 2px solid var(--apple-blue);
+            color: var(--apple-blue);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 999;
             opacity: 0;
-            transform: scale(0.4) translateY(40px);
-            visibility: hidden; 
-            transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s, box-shadow 0.3s, color 0.3s;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-            outline: none !important;
-        }
-
-        .back-to-top span {
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            display: inline-block;
-        }
-
-        .back-to-top:hover {
-            color: #99bf37;
-            border-color: rgba(153, 191, 55, 0.7);
-            transform: scale(1.1) translateY(-4px);
-            box-shadow: 0 0 30px rgba(116, 130, 237, 0.45), 0 10px 30px rgba(0,0,0,0.7);
-        }
-
-        .back-to-top:hover span {
-            transform: translateY(-2px);
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-size: 1.5rem;
+            box-shadow: 4px 4px 0px rgba(0, 157, 220, 0.4);
+            transform: translateY(20px);
         }
 
         .back-to-top.visible {
             opacity: 1;
             visibility: visible;
-            transform: scale(1) translateY(0);
+            transform: translateY(0);
         }
 
-        /* MOBILE RESPONSIVE MEDIA QUERIES */
-        @media (max-width: 768px) {
-            nav {
-                justify-content: center;
-                padding: 20px 0 10px 0;
-            }
-            .nav-container {
-                flex-direction: column-reverse;
-                gap: 20px;
-                width: 100%;
-            }
-            .nav-links {
-                justify-content: center;
-                gap: 15px 20px;
-            }
-            
-            /* Адаптація головного екрана */
-            .hero {
-                padding: 25px 0 45px 0;
-            }
-            .avatar-container {
-                width: 130px;
-                height: 130px;
-                margin-bottom: 20px;
-            }
-            .hero h1 {
-                font-size: 2.1rem;
-            }
-            .hero h2 {
-                font-size: 1rem;
-                letter-spacing: 1px;
-            }
-            .hero-desc {
-                font-size: 0.95rem;
-            }
-
-            /* Вертикальний стек для карток проєктів */
-            .company-card {
-                flex-direction: column;
-                padding: 20px;
-                gap: 20px;
-            }
-            .video-wrapper {
-                width: 100%;
-                max-width: 100%;
-            }
-            .landscape-layout {
-                height: 190px;
-            }
-            .portrait-layout {
-                flex: 1;
-                height: 160px;
-                max-width: calc(33.333% - 10px);
-            }
-            .btn-more {
-                align-self: stretch;
-                text-align: center;
-                padding: 10px;
-            }
-            
-            .back-to-top {
-                bottom: 25px;
-                right: 25px;
-                width: 48px;
-                height: 48px;
-            }
+        .back-to-top:hover {
+            background: var(--apple-blue);
+            color: #fff;
+            box-shadow: 4px 4px 0px var(--apple-purple);
         }
 
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            .nav-links {
-                gap: 12px 15px;
-            }
-            .nav-links a {
-                font-size: 0.88rem;
-            }
-            .tech-grid {
-                gap: 15px;
-            }
-            .tech-item {
-                width: 55px;
-                height: 55px;
-                font-size: 0.85rem;
-            }
-            /* Ізолюємо мобільні тултіпи від десктопних ховерів */
-            .tech-item:hover::after, .tech-item:hover::before {
-                opacity: 0;
-            }
-            .tech-item.touch-active::after, .tech-item.touch-active::before {
-                opacity: 1;
-            }
+        .toast-notification {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: var(--apple-green);
+            color: #fff;
+            padding: 15px 25px;
+            font-family: 'Russo One', sans-serif;
+            font-size: 1rem;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
 
-        /* FOOTER */
+        .toast-notification.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
         footer {
             text-align: center;
             padding: 40px 0;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            color: #666;
-            font-size: 0.85rem;
+            border-top: 2px solid #333;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section { flex-direction: column; text-align: center; padding: 60px 0; }
+            .hero-info h1 { font-size: 2.5rem; }
+            
+            nav { flex-direction: column; gap: 15px; }
+            .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+            .nav-links a { font-size: 0.85rem; }
+            
+            .company-card { flex-direction: column; padding: 20px; }
+            
+            .carousel-container { width: 100%; max-width: 100%; }
+            .carousel-btn { display: none; }
+            
+            .landscape-layout { width: 220px; height: 125px; } 
+            .portrait-layout { width: 70px; height: 125px; }
+
+            .btn-more { align-self: stretch; text-align: center; }
+            .back-to-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
+            .video-modal-content { width: 90%; height: 80vh; }
         }
     </style>
 </head>
 <body>
 
-    <div id="backToTop" class="back-to-top" onclick="scrollToTop()"><span>▲</span></div>
+    <div class="ambient-bg"></div>
+    <canvas id="particlesCanvas"></canvas>
 
-    <div id="toast" class="toast-notification">Пошту скопійовано! 👍</div>
+    <div id="toast" class="toast-notification"></div>
+
+    <div id="backToTop" class="back-to-top" onclick="scrollToTop()">▲</div>
 
     <div class="container">
         
         <nav>
-            <div class="nav-container">
-                <div class="nav-links">
-                    <a onclick="scrollToWorks()" id="nav-portfolio">Портфоліо</a>
-                    <a onclick="copyEmail()" id="nav-email">Пошта</a>
-                    <a href="https://t.me/pure_lama86" target="_blank">Telegram</a>
-                    <a href="viber://chat?number=+380962128905" target="_blank">Viber</a>
-                    <a href="https://instagram.com/chorney_kirill" target="_blank">Instagram</a>
-                </div>
-                
-                <div class="lang-switch" onclick="toggleLanguage()">
-                    <span id="lang-ua" class="active">UA</span>
-                    <span style="color:#444; pointer-events: none; user-select: none;">/</span>
-                    <span id="lang-en">EN</span>
-                </div>
+            <div class="nav-links">
+                <a href="#hero" id="nav-home">Головна</a>
+                <a href="#experience" id="nav-exp">Досвід</a>
+                <a href="#portfolio" id="nav-port">Портфоліо</a>
+                <a href="#contacts" id="nav-cont">Контакти</a>
+            </div>
+            
+            <div class="lang-switch" onclick="toggleLanguage()">
+                <span id="lang-ua" class="active">UA</span>
+                <span style="color:#666; pointer-events: none; user-select: none;">|</span>
+                <span id="lang-en">EN</span>
             </div>
         </nav>
 
-        <section class="hero">
-            <div class="avatar-container">
-                <img src="avatar.png" alt="Кирило Чорней">
+        <section id="hero" class="hero-section">
+            <div class="profile-photo">
+                <span id="photo-placeholder">[Тут буде ваше фото]</span>
             </div>
-            <h1 id="hero-name">Кирило Чорней</h1>
-            <h2 id="hero-title">відеомонтажер, моушн-дизайнер</h2>
-            <p id="hero-desc" class="hero-desc">Беру ідеї та перетворюю їх на динамічний цифровий контент. Допомагаю брендам та авторам виділятися через соковитий моушн-дизайн, професійний монтаж та продумані візуальні рішення.</p>
+            <div class="hero-info">
+                <h1 id="hero-name">Кирило Чорней</h1>
+                <h2 id="hero-subtitle">Відеомонтажер / Motion Designer</h2>
+                <p id="hero-desc">Професійно створюю динамічний відеоконтент: від рекламних промо-роликів до експертних Reels та складної шейпової анімації. Працюю з сенсами, ритмом та утриманням уваги.</p>
+                <a href="#portfolio" class="btn-more" id="hero-btn">Дивитись роботи</a>
+            </div>
         </section>
 
-        <section id="works">
-            <h2 id="section-works-title" class="section-title">Компанії & Проєкти</h2>
-            <div class="works-list">
+        <section id="experience">
+            <h2 id="sec-exp-title" class="section-title">Досвід та Клієнти</h2>
+            <div class="companies-grid">
+                <a href="https://retrostylegames.com/" target="_blank" class="company-logo" style="--hover-color: var(--apple-red);">RetroStyle Games</a>
+                <a href="https://www.adscreativehouse.com/" target="_blank" class="company-logo" style="--hover-color: var(--apple-orange);">ADSCREATIVEHOUSE</a>
+                <a href="https://seoquick.com.ua" target="_blank" class="company-logo" style="--hover-color: var(--apple-green);">SEOquick</a>
+                <a href="https://playua.net/" target="_blank" class="company-logo" style="--hover-color: var(--apple-blue);">PlayUA</a>
+            </div>
+        </section>
 
-                <div class="company-card">
+        <section id="portfolio">
+            <h2 id="sec-port-title" class="section-title">Портфоліо</h2>
+            
+            <div class="portfolio-categories">
+                <button class="category-btn active" id="cat-all" data-filter="all">Усі роботи</button>
+                <button class="category-btn" id="cat-promo" data-filter="promo">Реклама та Промо</button>
+                <button class="category-btn" id="cat-reels" data-filter="reels">Соцмережі та Reels</button>
+                <button class="category-btn" id="cat-motion" data-filter="motion">Motion Design</button>
+                <button class="category-btn" id="cat-ai" data-filter="ai">AI & «Під ключ»</button>
+            </div>
+
+            <div class="works-list">
+                
+                <div class="company-card" data-category="promo">
                     <div class="company-info">
-                        <span class="company-tag" id="card1-tag">/ Commercial Video</span>
+                        <span class="company-tag" id="card1-tag">Commercial Video</span>
                         <h3 id="card1-title">Промо-ролик для IT-продукту</h3>
                         <p id="card1-desc">Розробка динамічного рекламного відео: від написання сценарію до фінального звукового дизайну та інтеграції плавної графіки.</p>
                         <a href="#" class="btn-more" id="card1-btn">Дивитись кейс</a>
                     </div>
-                    <div class="video-wrapper">
-                        <div class="video-holder landscape-layout">
-                            <span id="placeholder-16-9-a">Відеозаглушка 16:9</span>
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev-btn">❮</button>
+                        <div class="carousel-view">
+                            <div class="carousel-track">
+                                <div class="video-holder landscape-layout" style="border: none; background: transparent;">
+                                    <div class="video-thumbnail" onclick="openVideoModal('https://drive.google.com/file/d/1Ejc9LUHUZ03ADksmYhnhY88-3jfknEq4/preview')">
+                                        <div class="play-btn"></div>
+                                    </div>
+                                </div>
+                                <div class="video-holder portrait-layout" style="border: none; background: transparent;">
+                                    <div class="video-thumbnail" onclick="openVideoModal('https://drive.google.com/file/d/1Ejc9LUHUZ03ADksmYhnhY88-3jfknEq4/preview')">
+                                        <div class="play-btn"></div>
+                                    </div>
+                                </div>
+                                <div class="video-holder landscape-layout"><span class="placeholder-reels">YouTube Promo 16:9</span></div>
+                            </div>
                         </div>
+                        <button class="carousel-btn next-btn">❯</button>
                     </div>
                 </div>
 
-                <div class="company-card">
+                <div class="company-card" data-category="reels">
                     <div class="company-info">
-                        <span class="company-tag" id="card2-tag">/ Social Media Content</span>
+                        <span class="company-tag" id="card2-tag">Social Media Content</span>
                         <h3 id="card2-title">Серія Reels: Фінанси та Трейдинг</h3>
-                        <p id="card2-desc">Створення циклу коротких вертикальних відео «під ключ». Динамічний темпомонтаж, акцентні субтитри та саунд-дизайн, що утримують увагу глядача з першої секунди.</p>
+                        <p id="card2-desc">Створення циклу вертикальних відео «під ключ». Темпомонтаж, акцентні субтитри та саунд-дизайн, що утримують увагу глядача.</p>
                         <a href="#" class="btn-more" id="card2-btn">Дивитись серію</a>
                     </div>
-                    <div class="video-wrapper">
-                        <div class="video-holder portrait-layout"><span class="placeholder-reels">Reels 1</span></div>
-                        <div class="video-holder portrait-layout"><span class="placeholder-reels">Reels 2</span></div>
-                        <div class="video-holder portrait-layout"><span class="placeholder-reels">Reels 3</span></div>
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev-btn">❮</button>
+                        <div class="carousel-view">
+                            <div class="carousel-track">
+                                <div class="video-holder portrait-layout" style="border: none; background: transparent;">
+                                    <div class="video-thumbnail" onclick="openVideoModal('https://drive.google.com/file/d/1Ejc9LUHUZ03ADksmYhnhY88-3jfknEq4/preview')">
+                                        <div class="play-btn"></div>
+                                    </div>
+                                </div>
+                                <div class="video-holder portrait-layout"><span class="placeholder-reels">TikTok 1</span></div>
+                                <div class="video-holder portrait-layout"><span class="placeholder-reels">Shorts 2</span></div>
+                                <div class="video-holder landscape-layout"><span class="placeholder-reels">YouTube 16:9</span></div>
+                            </div>
+                        </div>
+                        <button class="carousel-btn next-btn">❯</button>
                     </div>
                 </div>
 
-                <div class="company-card">
+                <div class="company-card" data-category="motion">
                     <div class="company-info">
-                        <span class="company-tag">/ Motion Design</span>
-                        <h3 id="card3-title">Анімація інтерфейсів & Шейпова графіка</h3>
-                        <p id="card3-desc">Створення складних 2D/3D сцен, інфографіки та кастомних переходів в Adobe After Effects. Поєднання мінімалізму та соковитої динаміки.</p>
-                        <a href="#" class="btn-more" id="card3-btn">Переглянути графіку</a>
+                        <span class="company-tag" id="card3-tag">Animation</span>
+                        <h3 id="card3-title">Шейпова анімація та Інфографіка</h3>
+                        <p id="card3-desc">Складна 2D анімація векторних об'єктів для пояснення складних процесів. Робота з ключовими кадрами та графіками швидкості.</p>
+                        <a href="#" class="btn-more" id="card3-btn">Дивитись кейс</a>
                     </div>
-                    <div class="video-wrapper">
-                        <div class="video-holder landscape-layout">
-                            <span id="placeholder-16-9-b">Шоуріл заглушка</span>
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev-btn">❮</button>
+                        <div class="carousel-view">
+                            <div class="carousel-track">
+                                <div class="video-holder landscape-layout"><span class="placeholder-motion">Motion 16:9</span></div>
+                                <div class="video-holder portrait-layout"><span class="placeholder-motion">Motion 9:16</span></div>
+                                <div class="video-holder landscape-layout"><span class="placeholder-motion">Explainer</span></div>
+                            </div>
                         </div>
+                        <button class="carousel-btn next-btn">❯</button>
+                    </div>
+                </div>
+
+                <div class="company-card" data-category="ai">
+                    <div class="company-info">
+                        <span class="company-tag" id="card4-tag">AI Generation</span>
+                        <h3 id="card4-title">ШІ-Аватари та Озвучка</h3>
+                        <p id="card4-desc">Повний цикл створення контенту за допомогою штучного інтелекту: генерація відео-аватарів, написання сценарію та AI-озвучка ElevenLabs.</p>
+                        <a href="#" class="btn-more" id="card4-btn">Дивитись кейс</a>
+                    </div>
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev-btn">❮</button>
+                        <div class="carousel-view">
+                            <div class="carousel-track">
+                                <div class="video-holder portrait-layout"><span class="placeholder-ai">AI Avatar 1</span></div>
+                                <div class="video-holder landscape-layout"><span class="placeholder-ai">AI Presentation</span></div>
+                                <div class="video-holder portrait-layout"><span class="placeholder-ai">AI Avatar 2</span></div>
+                            </div>
+                        </div>
+                        <button class="carousel-btn next-btn">❯</button>
                     </div>
                 </div>
 
             </div>
         </section>
 
-        <section class="tech-stack">
-            <h3 id="section-tech-title" class="tech-title">Інструменти & Софт</h3>
-            <div class="tech-grid">
-                <div class="tech-item" id="tool-pr" data-tooltip="Adobe Premiere Pro">Pr</div>
-                <div class="tech-item" id="tool-ae" data-tooltip="Adobe After Effects">Ae</div>
-                <div class="tech-item" id="tool-dr" data-tooltip="DaVinci Resolve">Dr</div>
-                <div class="tech-item" id="tool-me" data-tooltip="Adobe Media Encoder">Me</div>
-                <div class="tech-item" data-tooltip="CapCut">Cc</div>
-                <div class="tech-item" id="tool-ps" data-tooltip="Adobe Photoshop">Ps</div>
-                <div class="tech-item" id="tool-ai" data-tooltip="Adobe Illustrator">Ai</div>
+        <section id="contacts">
+            <h2 id="sec-cont-title" class="section-title">Зв'язатися зі мною</h2>
+            <div class="contact-grid">
+                <a href="https://t.me/pure_lama86" target="_blank" class="contact-card">
+                    <span>Telegram</span>
+                </a>
+                <a href="viber://chat?number=+380962128905" target="_blank" class="contact-card">
+                    <span>Viber</span>
+                </a>
+                <a href="https://instagram.com/chorney_kirill" target="_blank" class="contact-card">
+                    <span>Instagram</span>
+                </a>
+                <div class="contact-card" onclick="copyEmail()">
+                    <span>Email</span>
+                </div>
             </div>
         </section>
 
@@ -693,54 +830,73 @@
 
     </div>
 
+    <div class="video-modal" id="videoModal" onclick="closeVideoModal(event)">
+        <span class="close-modal" onclick="closeVideoModal(event)">&times;</span>
+        <div class="video-modal-content">
+            <iframe id="modalIframe" src="" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        </div>
+    </div>
+
     <script>
         const translations = {
             uk: {
                 title: "Кирило Чорней | Портфоліо",
-                toast: "Пошту скопійовано! 👍",
-                navPortfolio: "Портфоліо",
-                navEmail: "Пошта",
+                navHome: "Головна", navExp: "Досвід", navPort: "Портфоліо", navCont: "Контакти",
+                photoPlaceholder: "[Тут буде ваше фото]",
                 heroName: "Кирило Чорней",
-                heroTitle: "відеомонтажер, моушн-дизайнер",
-                heroDesc: "Беру ідеї та перетворюю їх на динамічний цифровий контент. Допомагаю брендам та авторам виділятися через соковитий моушн-дизайн, професійний монтаж та продумані візуальні рішення.",
-                secWorksTitle: "Компанії & Проєкти",
+                heroSubtitle: "Відеомонтажер / Motion Designer",
+                heroDesc: "Професійно створюю динамічний відеоконтент: від рекламних промо-роликів до експертних Reels та складної шейпової анімації. Працюю з сенсами, ритмом та утриманням уваги.",
+                heroBtn: "Дивитись роботи",
+                secExpTitle: "Досвід та Клієнти",
+                secPortTitle: "Портфоліо",
+                catAll: "Усі роботи", 
+                catPromo: "Реклама та Промо", 
+                catReels: "Соцмережі та Reels", 
+                catMotion: "Motion Design", 
+                catAi: "AI & «Під ключ»",
                 card1Title: "Промо-ролик для IT-продукту",
                 card1Desc: "Розробка динамічного рекламного відео: від написання сценарію до фінального звукового дизайну та інтеграції плавної графіки.",
                 card1Btn: "Дивитись кейс",
                 card2Title: "Серія Reels: Фінанси та Трейдинг",
-                card2Desc: "Створення циклу коротких вертикальних відео «під ключ». Динамічний темпомонтаж, акцентні субтитри та саунд-дизайн, що утримують увагу глядача з першої секунди.",
+                card2Desc: "Створення циклу вертикальних відео «під ключ». Темпомонтаж, акцентні субтитри та саунд-дизайн, що утримують увагу глядача.",
                 card2Btn: "Дивитись серію",
-                card3Title: "Анімація інтерфейсів & Шейпова графіка",
-                card3Desc: "Створення складних 2D/3D сцен, інфографіки та кастомних переходів в Adobe After Effects. Поєднання мінімалізму та соковитої динаміки.",
-                card3Btn: "Переглянути графіку",
-                placeholder169a: "Відеозаглушка 16:9",
-                placeholder169b: "Шоуріл заглушка",
-                placeholderReels: "Reels",
-                secTechTitle: "Інструменти & Софт",
+                card3Title: "Шейпова анімація та Інфографіка",
+                card3Desc: "Складна 2D анімація векторних об'єктів для пояснення складних процесів. Робота з ключовими кадрами та графіками швидкості.",
+                card3Btn: "Дивитись кейс",
+                card4Title: "ШІ-Аватари та Озвучка",
+                card4Desc: "Повний цикл створення контенту за допомогою штучного інтелекту: генерація відео-аватарів, написання сценарію та AI-озвучка ElevenLabs.",
+                card4Btn: "Дивитись кейс",
+                secContTitle: "Зв'язатися зі мною",
                 footer: "© 2026 Кирило Чорней. Всі права захищені."
             },
             en: {
                 title: "Kyrylo Chorney | Portfolio",
-                toast: "Email copied! 👍",
-                navPortfolio: "Portfolio",
-                navEmail: "Email",
+                navHome: "Home", navExp: "Experience", navPort: "Portfolio", navCont: "Contact",
+                photoPlaceholder: "[Your photo here]",
                 heroName: "Kyrylo Chorney",
-                heroTitle: "Video Editor, Motion Designer",
-                heroDesc: "I take ideas and turn them into dynamic digital content. Helping brands and creators stand out through juicy motion design, professional editing, and smart visual solutions.",
-                secWorksTitle: "Companies & Projects",
+                heroSubtitle: "Video Editor / Motion Designer",
+                heroDesc: "I professionally create dynamic video content: from promotional videos to expert Reels and complex shape animations. I work with meaning, rhythm, and viewer retention.",
+                heroBtn: "View Work",
+                secExpTitle: "Experience & Clients",
+                secPortTitle: "Portfolio",
+                catAll: "All Works", 
+                catPromo: "Commercials & Promo", 
+                catReels: "Social Media & Reels", 
+                catMotion: "Motion Design", 
+                catAi: "AI & Turnkey",
                 card1Title: "Promo Video for IT Product",
-                card1Desc: "Development of dynamic promotional video: from scriptwriting to final sound design and integration of smooth vector graphics.",
+                card1Desc: "Development of dynamic promotional video: from scriptwriting to final sound design and vector graphics integration.",
                 card1Btn: "View Case",
                 card2Title: "Reels Series: Finance & Trading",
-                card2Desc: "Turnkey production of short vertical videos. Dynamic fast-cut editing, engaging subtitles, and sound design that capture viewer attention from the first second.",
+                card2Desc: "Turnkey production of short vertical videos. Dynamic fast-cut editing, engaging subtitles, and sound design.",
                 card2Btn: "View Series",
-                card3Title: "UI Animation & Shape Graphics",
-                card3Desc: "Creating complex 2D/3D scenes, infographics, and custom transitions in Adobe After Effects. Merging minimalism with rich dynamics.",
-                card3Btn: "View Graphics",
-                placeholder169a: "Video Placeholder 16:9",
-                placeholder169b: "Showreel Placeholder",
-                placeholderReels: "Reels",
-                secTechTitle: "Tools & Software",
+                card3Title: "Shape Animation & Infographics",
+                card3Desc: "Complex 2D animation of vector objects to explain processes. Working with keyframes and speed graphs.",
+                card3Btn: "View Case",
+                card4Title: "AI Avatars & Voiceovers",
+                card4Desc: "Full cycle of AI content creation: video avatar generation, scriptwriting, and ElevenLabs AI voiceovers.",
+                card4Btn: "View Case",
+                secContTitle: "Get in Touch",
                 footer: "© 2026 Kyrylo Chorney. All rights reserved."
             }
         };
@@ -752,36 +908,15 @@
             localStorage.setItem('portfolio_lang', lang);
             
             document.title = translations[lang].title;
-            document.getElementById('toast').innerHTML = translations[lang].toast;
-            document.getElementById('nav-portfolio').innerHTML = translations[lang].navPortfolio;
-            document.getElementById('nav-email').innerHTML = translations[lang].navEmail;
-            document.getElementById('hero-name').innerHTML = translations[lang].heroName;
-            document.getElementById('hero-title').innerHTML = translations[lang].heroTitle;
-            document.getElementById('hero-desc').innerHTML = translations[lang].heroDesc;
-            document.getElementById('section-works-title').innerHTML = translations[lang].secWorksTitle;
             
-            document.getElementById('card1-title').innerHTML = translations[lang].card1Title;
-            document.getElementById('card1-desc').innerHTML = translations[lang].card1Desc;
-            document.getElementById('card1-btn').innerHTML = translations[lang].card1Btn;
-            
-            document.getElementById('card2-title').innerHTML = translations[lang].card2Title;
-            document.getElementById('card2-desc').innerHTML = translations[lang].card2Desc;
-            document.getElementById('card2-btn').innerHTML = translations[lang].card2Btn;
-            
-            document.getElementById('card3-title').innerHTML = translations[lang].card3Title;
-            document.getElementById('card3-desc').innerHTML = translations[lang].card3Desc;
-            document.getElementById('card3-btn').innerHTML = translations[lang].card3Btn;
-
-            document.getElementById('placeholder-16-9-a').innerHTML = translations[lang].placeholder169a;
-            document.getElementById('placeholder-16-9-b').innerHTML = translations[lang].placeholder169b;
-            
-            const reelsSpans = document.querySelectorAll('.placeholder-reels');
-            reelsSpans.forEach((span, index) => {
-                span.innerHTML = `${translations[lang].placeholderReels} ${index + 1}`;
+            ['navHome', 'navExp', 'navPort', 'navCont', 'photoPlaceholder', 'heroName', 'heroSubtitle', 
+             'heroDesc', 'heroBtn', 'secExpTitle', 'secPortTitle', 'catAll', 'catPromo', 'catReels', 'catMotion', 'catAi', 
+             'card1Title', 'card1Desc', 'card1Btn', 'card2Title', 'card2Desc', 'card2Btn', 
+             'card3Title', 'card3Desc', 'card3Btn', 'card4Title', 'card4Desc', 'card4Btn', 
+             'secContTitle', 'footer'].forEach(id => {
+                const el = document.getElementById(id.replace(/([A-Z])/g, '-$1').toLowerCase());
+                if(el) el.innerHTML = translations[lang][id];
             });
-
-            document.getElementById('section-tech-title').innerHTML = translations[lang].secTechTitle;
-            document.getElementById('footer-text').innerHTML = translations[lang].footer;
 
             if(lang === 'uk') {
                 document.getElementById('lang-ua').classList.add('active');
@@ -793,45 +928,69 @@
         }
 
         function toggleLanguage() {
-            if (currentLang === 'uk') {
-                setLanguage('en');
-            } else {
-                setLanguage('uk');
-            }
+            const container = document.querySelector('.container');
+            container.classList.add('lang-switching');
+            
+            setTimeout(() => {
+                setLanguage(currentLang === 'uk' ? 'en' : 'uk');
+                setTimeout(() => {
+                    container.classList.remove('lang-switching');
+                }, 50);
+            }, 400); 
         }
 
         document.addEventListener("DOMContentLoaded", () => {
             setLanguage(currentLang);
+            
+            document.querySelectorAll('.carousel-container').forEach(container => {
+                const view = container.querySelector('.carousel-view');
+                const prevBtn = container.querySelector('.prev-btn');
+                const nextBtn = container.querySelector('.next-btn');
+                
+                const scrollAmount = 200; 
 
-            // МОБІЛЬНИЙ СКРИПТ ДЛЯ ТАПУ ПО ІКОНКАХ СОФТУ
-            const techItems = document.querySelectorAll('.tech-item');
-            techItems.forEach(item => {
-                item.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 768) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        
-                        const isActive = item.classList.contains('touch-active');
-                        techItems.forEach(i => i.classList.remove('touch-active'));
-                        
-                        if(!isActive) {
-                            item.classList.add('touch-active');
-                        }
-                    }
+                prevBtn.addEventListener('click', () => {
+                    view.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    view.scrollBy({ left: scrollAmount, behavior: 'smooth' });
                 });
             });
+        });
 
-            document.addEventListener('click', function(e) {
-                if (!e.target.classList.contains('tech-item')) {
-                    techItems.forEach(i => i.classList.remove('touch-active'));
-                }
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const cards = document.querySelectorAll('.company-card');
+
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                cards.forEach(card => {
+                    card.classList.add('hide-anim');
+                    
+                    setTimeout(() => {
+                        if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                            card.classList.remove('hidden'); 
+                            
+                            setTimeout(() => {
+                                card.classList.remove('hide-anim');
+                            }, 20);
+                        } else {
+                            card.classList.add('hidden'); 
+                        }
+                    }, 300);
+                });
             });
         });
 
         function copyEmail() {
             const email = 'kirill.chorney@gmail.com';
             navigator.clipboard.writeText(email).then(() => {
-                showToast();
+                showToastEmail();
             }).catch(err => {
                 const tempInput = document.createElement('input');
                 tempInput.value = email;
@@ -839,42 +998,355 @@
                 tempInput.select();
                 document.execCommand('copy');
                 document.body.removeChild(tempInput);
-                showToast();
+                showToastEmail();
             });
         }
 
-        function showToast() {
+        function showToastEmail() {
             const toast = document.getElementById('toast');
+            toast.innerHTML = currentLang === 'uk' ? 'Email скопійовано! 👍' : 'Email copied! 👍';
             toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2500);
+            setTimeout(() => toast.classList.remove('show'), 2500);
         }
 
-        const backToTopButton = document.getElementById("backToTop");
-
-        window.onscroll = function() {
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                backToTopButton.classList.add("visible");
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
             } else {
-                backToTopButton.classList.remove("visible");
+                backToTopBtn.classList.remove('visible');
             }
-        };
+        });
 
         function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function scrollToWorks() {
-            const worksSection = document.getElementById('works');
-            worksSection.scrollIntoView({
-                behavior: 'smooth'
-            });
+        function openVideoModal(url) {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('modalIframe');
+            iframe.src = url;
+            modal.classList.add('active');
         }
+
+        function closeVideoModal(e) {
+            if (e.target.classList.contains('video-modal') || e.target.classList.contains('close-modal')) {
+                const modal = document.getElementById('videoModal');
+                const iframe = document.getElementById('modalIframe');
+                modal.classList.remove('active');
+                setTimeout(() => { iframe.src = ""; }, 300);
+            }
+        }
+
+        const canvas = document.getElementById('particlesCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let ships = [];
+        let explosions = [];
+        let clickParticles = [];
+        let mouse = { x: -1000, y: -1000 };
+        
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playRetroSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const gainNode = audioCtx.createGain();
+            gainNode.connect(audioCtx.destination);
+            
+            if (type === 'explosion') {
+                const osc = audioCtx.createOscillator();
+                osc.connect(gainNode);
+                osc.type = 'square';
+                const startFreq = 100 + Math.random() * 80;
+                const endFreq = 10 + Math.random() * 10;
+                osc.frequency.setValueAtTime(startFreq, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(endFreq, audioCtx.currentTime + 0.3);
+                gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'click') {
+                const osc = audioCtx.createOscillator();
+                osc.connect(gainNode);
+                osc.type = 'triangle';
+                const freq1 = 400 + Math.random() * 500;
+                const freq2 = freq1 / 1.5;
+                
+                osc.frequency.setValueAtTime(freq1, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(freq2, audioCtx.currentTime + 0.1);
+                
+                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.02, audioCtx.currentTime + 0.01);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.2);
+                
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                osc2.connect(gain2);
+                gain2.connect(audioCtx.destination);
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(freq1 * 1.5, audioCtx.currentTime);
+                gain2.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain2.gain.linearRampToValueAtTime(0.015, audioCtx.currentTime + 0.01);
+                gain2.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                osc2.start();
+                osc2.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
+        const appleColors = [
+            'rgba(97, 187, 70, 1.0)',  
+            'rgba(253, 184, 39, 1.0)', 
+            'rgba(245, 130, 31, 1.0)', 
+            'rgba(224, 58, 62, 1.0)',  
+            'rgba(150, 61, 151, 1.0)', 
+            'rgba(0, 157, 220, 1.0)'   
+        ];
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x = -1000; mouse.y = -1000; });
+        
+        class ClickParticle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 4 + 1;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.size = Math.floor(Math.random() * 4) + 2; 
+                this.life = 1.0;
+                this.color = appleColors[Math.floor(Math.random() * appleColors.length)];
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vx *= 0.92;
+                this.vy *= 0.92;
+                this.life -= 0.02;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.life);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 12; 
+                ctx.shadowColor = this.color; 
+                ctx.fillRect(this.x, this.y, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function handleGlobalClick(x, y) {
+            let hitShip = false;
+            ships = ships.filter(s => {
+                if (Math.hypot(s.x - x, s.y - y) < 60) {
+                    createExplosion(s.x, s.y, s.color);
+                    hitShip = true;
+                    return false;
+                }
+                return true;
+            });
+
+            if (hitShip) {
+                playRetroSound('explosion');
+            } else {
+                playRetroSound('click');
+                for (let i = 0; i < 15; i++) {
+                    clickParticles.push(new ClickParticle(x, y));
+                }
+            }
+        }
+
+        window.addEventListener('click', (e) => {
+            if(!e.target.closest('a, button, nav, .contact-card, .lang-switch, .back-to-top, .category-btn, .company-card, .profile-photo, .carousel-container, .company-logo, .video-modal, .close-modal, .video-thumbnail, .play-btn')) {
+                handleGlobalClick(e.clientX, e.clientY);
+            }
+        });
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.color = appleColors[Math.floor(Math.random() * appleColors.length)].replace('1.0', '0.4');
+            }
+            update() {
+                let dx = this.x - mouse.x;
+                let dy = this.y - mouse.y;
+                let dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 120) {
+                    let force = (120 - dist) / 120;
+                    this.x += (dx / dist) * force * 2;
+                    this.y += (dy / dist) * force * 2;
+                }
+
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.fillRect(Math.floor(this.x), Math.floor(this.y), this.size, this.size);
+            }
+        }
+
+        class Ship {
+            constructor() {
+                const side = Math.floor(Math.random() * 4);
+                this.speed = 0.5 + Math.random() * 0.8;
+                
+                if (side === 0) { 
+                    this.x = Math.random() * canvas.width;
+                    this.y = -30;
+                    this.vx = (Math.random() - 0.5) * this.speed;
+                    this.vy = this.speed;
+                } else if (side === 1) { 
+                    this.x = canvas.width + 30;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = -this.speed;
+                    this.vy = (Math.random() - 0.5) * this.speed;
+                } else if (side === 2) { 
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + 30;
+                    this.vx = (Math.random() - 0.5) * this.speed;
+                    this.vy = -this.speed;
+                } else { 
+                    this.x = -30;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = this.speed;
+                    this.vy = (Math.random() - 0.5) * this.speed;
+                }
+
+                this.color = appleColors[Math.floor(Math.random() * appleColors.length)];
+                this.frame = 0;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.frame += 0.15;
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(Math.atan2(this.vy, this.vx));
+                
+                const p = 3; 
+                ctx.fillStyle = this.color;
+                
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                
+                ctx.fillRect(-3*p, -1*p, 6*p, 2*p);
+                ctx.fillRect(-2*p, -2*p, 4*p, 4*p);
+                ctx.fillRect(3*p, -0.5*p, 2*p, 1*p);
+                ctx.fillRect(-2*p, -4*p, 2*p, 2*p);
+                ctx.fillRect(-2*p, 2*p, 2*p, 2*p);
+                ctx.fillRect(-3*p, -5*p, 1*p, 2*p);
+                ctx.fillRect(-3*p, 3*p, 1*p, 2*p);
+                
+                if (Math.floor(this.frame) % 2 === 0) {
+                    ctx.fillStyle = '#F5821F';
+                    ctx.shadowColor = '#F5821F';
+                    ctx.fillRect(-5*p, -0.5*p, 2*p, 1*p);
+                    ctx.fillStyle = '#FDB827';
+                    ctx.shadowColor = '#FDB827';
+                    ctx.fillRect(-4*p, -0.5*p, 1*p, 1*p);
+                } else {
+                    ctx.fillStyle = '#F5821F';
+                    ctx.shadowColor = '#F5821F';
+                    ctx.fillRect(-4*p, -1*p, 1*p, 2*p);
+                }
+
+                ctx.restore();
+            }
+        }
+
+        class ExplosionParticle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 4 + 1;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.size = Math.random() * 4 + 2;
+                this.life = 1.0;
+                this.color = Math.random() > 0.5 ? color : (Math.random() > 0.5 ? '#F5821F' : '#F2F2F2');
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= 0.02 + Math.random() * 0.02;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.life);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.fillRect(this.x, this.y, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function createExplosion(x, y, color) {
+            for (let i = 0; i < 30; i++) {
+                explosions.push(new ExplosionParticle(x, y, color));
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(Math.floor((canvas.width * canvas.height) / 7000), 120);
+            for (let i = 0; i < count; i++) particles.push(new Particle());
+        }
+
+        setInterval(() => {
+            if (ships.length < 5 && Math.random() > 0.3) ships.push(new Ship());
+        }, 3000);
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(p => { p.update(); p.draw(); });
+            
+            ships.forEach((s, index) => {
+                s.update();
+                s.draw();
+                if (s.x > canvas.width + 50 || s.x < -50 || s.y > canvas.height + 50 || s.y < -50) ships.splice(index, 1);
+            });
+
+            explosions.forEach((exp, index) => {
+                exp.update();
+                exp.draw();
+                if (exp.life <= 0) explosions.splice(index, 1);
+            });
+
+            clickParticles.forEach((cp, index) => {
+                cp.update();
+                cp.draw();
+                if (cp.life <= 0) clickParticles.splice(index, 1);
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        requestAnimationFrame(animateParticles);
     </script>
-
 </body>
 </html>
